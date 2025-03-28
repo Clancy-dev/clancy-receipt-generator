@@ -11,7 +11,7 @@ export default async function ReceiptPage({
 }: {
   params: { id: string }
 }) {
-  const { id } = await params
+  const { id } = params
 
   // Fetch data on the server
   const result = await getReceiptById(id)
