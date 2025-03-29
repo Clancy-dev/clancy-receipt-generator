@@ -120,3 +120,42 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.custom-loader {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: #de3500;
+  transform: rotateX(65deg) rotate(45deg);
+  color: #fff;
+  animation: loader-layers 1s linear infinite alternate;
+}
+
+.custom-loader:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  animation: loader-layer-tr 1s linear infinite alternate;
+}
+
+@keyframes loader-layers {
+  0% {
+    box-shadow: 0px 0px 0 0px;
+  }
+  90%,
+  100% {
+    box-shadow: 20px 20px 0 -4px;
+  }
+}
+
+@keyframes loader-layer-tr {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-25px, -25px) scale(1);
+  }
+}
+
