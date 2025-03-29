@@ -2,12 +2,10 @@
 
 import { useRef } from "react"
 import { Card } from "@/components/ui/card"
-// import { PieChart, Pie, Cell, ResponsiveContainer } from "@/components/ui/chart"
-import { QRCodeSVG } from "qrcode.react" // Changed from QRCode to QRCodeSVG
-import { formatCurrency } from "@/lib/utils"
-import { Receipt } from "@/app/types"
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts"
-// import type { Receipt } from "@/types/receipt"
+import { QRCodeSVG } from "qrcode.react"
+import { formatCurrency } from "@/lib/utils"
+import type { Receipt } from "@prisma/client"
 
 type ReceiptProps = {
   receipt: Receipt

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Printer, Download } from "lucide-react"
 import { toast } from "sonner"
 import { useRef } from "react"
-import { Receipt } from "@/app/types"
+import type { Receipt } from "@prisma/client"
 import { ReceiptView } from "./receipt-view"
 
 export function ReceiptActions({ receipt }: { receipt: Receipt }) {

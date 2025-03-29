@@ -2,8 +2,8 @@
 
 import type React from "react"
 
-// import { deleteReceipt, getReceipts } from "@/app/actions/receipt"
-// import type { Receipt } from "@/types/receipt"
+import { fetchReceipts, deleteReceipt } from "@/app/actions/receipt"
+import type { Receipt } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import Link from "next/link"
@@ -24,26 +24,30 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { formatCurrency } from "@/lib/utils"
-import { deleteReceipt, getReceipts } from "@/actions/receipt"
-import { Receipt } from "../types"
-// import { Receipt } from "@prisma/client"
 
 export default function Dashboard() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [receiptToDelete, setReceiptToDelete] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchReceipts() {
-      const result = await getReceipts()
-      if (result.success && result.data) {
-        setReceipts(result.data)
-      } else {
-        toast.error(result.error || "Failed to fetch receipts")
+    async function loadReceipts() {
+      try {
+        const result = await fetchReceipts()
+        if (result.success && result.data) {
+          setReceipts(result.data)
+        } else {
+          toast.error(result.error || "Failed to fetch receipts")
+        }
+      } catch (error) {
+        toast.error("An error occurred while fetching receipts")
+      } finally {
+        setLoading(false)
       }
     }
 
-    fetchReceipts()
+    loadReceipts()
   }, [])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,14 +55,18 @@ export default function Dashboard() {
   }
 
   const handleDelete = async (id: string) => {
-    const result = await deleteReceipt(id)
-    if (result.success) {
-      // Remove from local state to avoid refetching
-      setReceipts(receipts.filter((receipt) => receipt.id !== id))
-      toast.success("Receipt deleted successfully")
-      setReceiptToDelete(null)
-    } else {
-      toast.error(result.error || "Failed to delete receipt")
+    try {
+      const result = await deleteReceipt(id)
+      if (result.success) {
+        // Remove from local state to avoid refetching
+        setReceipts(receipts.filter((receipt) => receipt.id !== id))
+        toast.success("Receipt deleted successfully")
+        setReceiptToDelete(null)
+      } else {
+        toast.error(result.error || "Failed to delete receipt")
+      }
+    } catch (error) {
+      toast.error("An error occurred while deleting the receipt")
     }
   }
 
@@ -73,6 +81,16 @@ export default function Dashboard() {
   const sortedReceipts = [...filteredReceipts].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   )
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-pulse text-lg">Loading receipts...</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-12">

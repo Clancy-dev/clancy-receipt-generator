@@ -1,18 +1,15 @@
-import { getReceiptById } from "@/actions/receipt"
-import { ReceiptView } from "@/components/receipt-view"
+import ReceiptPage from '@/components/ReceiptPage'
+import { notFound } from 'next/navigation';
+import React from 'react';
 
+export default async function Page({params}: {params: Promise<{ id: string}>}) {
+  const { id } = await params;
+  // Ensure id exists before rendering
+  if (!id) return notFound();
 
-
-export default async function ReceiptPage({params}: {params: Promise<{ id: string}>}) {
-  const { id } = await params // No need for 'await' here
-
-  const result = await getReceiptById(id)
-
-  if (!result.success || !result.data) {
-    return <div>Receipt not found</div>
-  }
-
-  return <ReceiptView receipt={result.data} />
+  return (
+    <div>
+      <ReceiptPage id={id} />
+    </div>
+  );
 }
-
-
