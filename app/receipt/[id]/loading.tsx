@@ -11,7 +11,7 @@ export default function Loading() {
           background: #de3500;
           transform: rotateX(65deg) rotate(45deg);
           color: #fff;
-          animation: layers1 1s linear infinite alternate;
+          animation: layers1 2s linear infinite alternate;
         }
         .loader:after {
           content: '';

@@ -1,6 +1,6 @@
 "use client"
 
-export default function Loading() {
+export default function loading() {
   return (
     <div className="container mx-auto px-4 py-12 flex justify-center items-center min-h-[50vh]">
       <style jsx>{`
@@ -11,7 +11,7 @@ export default function Loading() {
           background: #de3500;
           transform: rotateX(65deg) rotate(45deg);
           color: #fff;
-          animation: layers1 1s linear infinite alternate;
+          animation: layers1 2s linear infinite alternate;
         }
         .loader:after {
           content: '';

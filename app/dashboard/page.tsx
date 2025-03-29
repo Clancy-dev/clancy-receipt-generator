@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { formatCurrency } from "@/lib/utils"
+import Loading from "../receipt/[id]/loading"
 
 export default function Dashboard() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
@@ -86,7 +87,9 @@ export default function Dashboard() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-pulse text-lg">Loading receipts...</div>
+          <div className="animate-pulse text-lg">
+            <Loading/>
+          </div>
         </div>
       </div>
     )

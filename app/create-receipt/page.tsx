@@ -12,6 +12,7 @@ import { ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { createReceipt } from "@/app/actions/receipt"
+import Loading from "./loading"
 
 // Define the Receipt type for the form
 export type ReceiptFormProps = {
@@ -92,6 +93,18 @@ export default function CreateReceipt() {
       setLoading(false)
     }
   }
+
+  if (loading) {
+      return (
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-pulse text-lg">
+              <Loading/>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -241,7 +254,7 @@ export default function CreateReceipt() {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between mt-1.5">
             <Button variant="outline" type="button" onClick={() => router.back()} disabled={loading}>
               Cancel
             </Button>
@@ -249,7 +262,7 @@ export default function CreateReceipt() {
               {loading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-t-2 border-white rounded-full animate-spin" />
-                  Creating Receipt...
+                  Generating Receipt...
                 </div>
               ) : (
                 <>
