@@ -7,6 +7,7 @@ export default async function Page({params}: {params: Promise<{ id: string}>}) {
   // Ensure id exists before rendering
   if (!id) return notFound();
 
+
   return (
     <div>
       <ReceiptPage id={id} />
